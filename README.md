@@ -4,23 +4,9 @@ This Specialization from leading researchers at the University of Washington int
 
 Applied Learning Project
 Learners will implement and apply predictive, classification, clustering, and information retrieval machine learning algorithms to real datasets throughout each course in the specialization. They will walk away with applied machine learning and Python programming experience.
-
-SKILLS YOU WILL GAIN: 
-  Data Clustering Algorithms
-  Machine Learning
-  Classification Algorithms
-  Decision Tree
-  Python Programming
-  Machine Learning Concepts
-  Deep Learning
-  Linear Regression
-  Ridge Regression
-  Lasso (Statistics)
-  Regression Analysis
-  Logistic Regression
   
-There are 4 Courses in this Specialization
-COURSE 1
+## There are 4 Courses in this Specialization
+# COURSE 1
 Machine Learning Foundations: A Case Study Approach
 
 Do you have data and wonder what it can tell you?  Do you need a deeper understanding of the core ways in which machine learning can improve your business?  Do you want to be able to converse with specialists about anything from regression and classification to deep learning and recommender systems?
@@ -41,7 +27,7 @@ Learning Outcomes:  By the end of this course, you will be able to:
    -Implement these techniques in Python.
 
 
-COURSE 2
+# COURSE 2
 Machine Learning: Regression
 Case Study - Predicting Housing Prices
 
@@ -62,7 +48,7 @@ Learning Outcomes:  By the end of this course, you will be able to:
    -Implement these techniques in Python.
 
 
-COURSE 3
+# COURSE 3
 Machine Learning: Classification
 Case Studies: Analyzing Sentiment & Loan Default Prediction
 
@@ -85,7 +71,7 @@ Learning Objectives: By the end of this course, you will be able to:
    -Implement these techniques in Python (or in the language of your choice, though Python is highly recommended).
 
 
-COURSE 4
+# COURSE 4
 Machine Learning: Clustering & Retrieval
 Case Studies: Finding Similar Documents
 
