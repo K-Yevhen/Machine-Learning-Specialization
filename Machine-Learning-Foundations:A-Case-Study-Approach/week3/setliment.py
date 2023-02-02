@@ -1,4 +1,5 @@
 import matplotlib
+import turicreate as tc
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
@@ -26,7 +27,7 @@ products['rating'].show()
 # ignore all 3* reviews
 products = products[products['rating'] != 3]
 
-positive sentiment = 4* and 5* reviews
+# positive sentiment = 4* and 5* reviews
 products['sentiment'] = products['rating'] >= 4
 print(products.head())
 
