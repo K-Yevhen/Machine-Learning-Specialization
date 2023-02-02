@@ -32,4 +32,12 @@ crime_model_noCC = tc.linear_regression.create(sales_noCC, target="HousePrice", 
 # plt.show()
 
 # Compare coefficients for full-data fit versus no-Center-City fit
-print(crime_model.coefficients)
+# print(crime_model.coefficients)
+# print(crime_model_noCC.coefficients)
+
+# Remove high-value outlier neighborhoods and redo analysis
+sales_nohighend = sales_noCC[sales_noCC['HousePrice'] < 350000]
+crime_model_nohighend = tc.linear_regression.create(sales_nohighend, target='HousePrice', features=['CrimeRate'], validation_set=None, verbose=False)
+
+print(crime_model_noCC.coefficients)
+print(crime_model_nohighend.coefficients)
