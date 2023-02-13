@@ -67,10 +67,67 @@ poly15_data = polynomial_dataframe(sales['sqft_living'], 15)
 poly15_data['price'] = sales['price']
 
 model15 = linear_model.LinearRegression().fit(poly15_data.loc[:, poly15_data.columns != 'price'], np.array([poly15_data['price']]).T)
-plt.plot(poly15_data['power_1'], poly15_data['price'],'.', poly15_data['power_1'], model15.predict(poly15_data.loc[:, poly15_data.columns != 'price']), '-')
-
+plt.plot(poly15_data['power_1'], poly15_data['price'], '.', poly15_data['power_1'], model15.predict(poly15_data.loc[:, poly15_data.columns != 'price']), '-')
+plt.show()
 
 set_1 = pd.read_csv('wk3_kc_house_set_1_data.csv', dtype = dtype_dict)
 set_2 = pd.read_csv('wk3_kc_house_set_2_data.csv', dtype = dtype_dict)
 set_3 = pd.read_csv('wk3_kc_house_set_3_data.csv', dtype = dtype_dict)
 set_4 = pd.read_csv('wk3_kc_house_set_4_data.csv', dtype = dtype_dict)
+
+def get_poly_model(set_data):
+    poly15_data = polynomial_dataframe(set_data['sqft_living'], 15)
+    poly15_data['price'] = sales['price']
+    model15 = linear_model.LinearRegression().fit(poly15_data.loc[:, poly15_data.columns != 'price'], np.array([poly15_data['price']]).T)
+    return poly15_data, model15
+
+def get_coef(set_data):
+    poly15_data, model15 = get_poly_model(set_data)
+    return model15.coef_
+
+def plot_fitted_line(set_data):
+    poly15_data, model15 = get_poly_model(set_data)
+    return plt.plot(poly15_data['power_1'], poly15_data['price'], '.', poly15_data['power_1'], model15.predict(poly15_data.loc[:, poly15_data.columns != 'price']), '-')
+
+print(get_coef(set_1))
+plot_fitted_line(set_1)
+plt.show()
+
+print(get_coef(set_2))
+plot_fitted_line(set_2)
+plt.show()
+
+print(get_coef(set_3))
+plot_fitted_line(set_3)
+plt.show()
+
+print(get_coef(set_4))
+plot_fitted_line(set_4)
+plt.show()
+
+from sklearn.metrics import mean_squared_error
+from scipy import sqrt
+
+house_train = pd.read_csv('wk3_kc_house_train_data.csv', dtype = dtype_dict)
+house_test = pd.read_csv('wk3_kc_house_test_data.csv', dtype = dtype_dict)
+house_valid = pd.read_csv('wk3_kc_house_valid_data.csv', dtype = dtype_dict)
+
+RSS_valid = 1e17
+power_valid = 1
+for power in range(1, 16):
+    poly_train_data = polynomial_dataframe(house_train['sqft_living'], power)
+    poly_valid_data = polynomial_dataframe(house_valid['sqft_living'], power)
+    poly_train_data['price'] = house_train['price']
+    poly_valid_data['price'] = house_valid['price']
+    lin_reg_model = linear_model.LinearRegression().fit(poly_train_data.loc[:, poly_train_data.columns != 'price'],
+                                                        np.array([poly_train_data['price']]).T)
+    house_valid_predict = lin_reg_model.predict(poly_valid_data.loc[:, poly_valid_data.columns != 'price'])
+    output_str = "Power " + str(power) + " RSS on VALIDATION Data: "
+    output_RSS = sqrt(mean_squared_error(poly_valid_data['price'], house_valid_predict))
+    print(output_str, output_RSS)
+    if output_RSS < RSS_valid:
+        RSS_valid = output_RSS
+        power_valid = power
+
+print("The 'best' polynomial degree is: ", power_valid)
+print("The lowest RSS on VALIDATION data is: ", RSS_valid)
