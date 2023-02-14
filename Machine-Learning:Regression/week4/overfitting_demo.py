@@ -27,7 +27,7 @@ data = tc.SFrame({'X1': x, 'Y': y})
 
 # Create a function to plot the data, since we will do in many times
 def plot_data(data):
-    plt.plot(data['X1'],data['Y'],'k.')
+    plt.plot(data['X1'], data['Y'], 'k.')
     plt.xlabel('x')
     plt.ylabel('y')
     plt.show()
@@ -42,32 +42,36 @@ def polynomial_features(data, deg):
 
 # Define a function to fit a polynomial linear regression model of degree "deg" to the data in "data"
 def polynomial_regression(data, deg):
-    model = tc.linear_regression.create(polynomial_features(data, deg),
-                                        target='Y', l2_penalty=0., l1_penalty=0.,
-                                        validation_set=None, verbose=False)
+    model = tc.linear_regression.create(
+        polynomial_features(data, deg),
+        target='Y',
+        l2_penalty=0.,
+        l1_penalty=0.,
+        validation_set=None,
+        verbose=False)
     return model
 
 # Define function to plat data and predictions made, since we are going to use it many times
 def plot_poly_predictions(data, model):
     plot_data(data)
 
-    # Get the degree of teh polynomial
-    deg = len(model.coefficients['value'])-1
+    # Get the degree of the polynomial
+    deg = len(model.coefficients['value']) - 1
 
     # Create 200 points in the x axis and compute the predicted value for each point
-    x_pred = tc.SFrame({'X1': [i/200.0 for i in range(200)]})
+    x_pred = tc.SFrame({'X1': [i / 200.0 for i in range(200)]})
     y_pred = model.predict(polynomial_features(x_pred, deg))
 
-    # plot predcictions
-    plt.plot(x_pred['X1'], y_pred, 'g-', label='degree' + str(deg) + ' fit')
-    plt.legend(loc='upper_left')
+    # plot predictions
+    plt.plot(x_pred['X1'], y_pred, 'g-', label='degree ' + str(deg) + ' fit')
+    plt.legend(loc='upper left')
     plt.axis([0, 1, -1.5, 2])
     plt.show()
 
 # Create a function that prints the polynomial coefficients in a pretty way
 def print_coefficients(model):
-    deg = len(model.coefficients['value'])-1
     # Get the degree of the polynomial
+    deg = len(model.coefficients['value'])-1
 
     # Get learned parameters as a list
     w = list(model.coefficients['value'])
@@ -80,5 +84,15 @@ def print_coefficients(model):
 
 # Fit a degree-2 polynomial
 model = polynomial_regression(data, deg=2)
+print_coefficients(model)
+plot_poly_predictions(data, model)
+
+# Fit a degree-4 polynomial
+model = polynomial_regression(data, deg=4)
+print_coefficients(model)
+plot_poly_predictions(data, model)
+
+# Fit a degree-16 polynomial
+model = polynomial_regression(data, deg=16)
 print_coefficients(model)
 plot_poly_predictions(data, model)
