@@ -73,10 +73,10 @@ step_size = 1e-12
 max_iterations = 1000
 
 simple_weights_0_penalty = ridge_regression_gradient_descent(simple_feature_matrix, output, [0.0,0.0], 1e-12, 0.0, max_iterations=1000)
-print(simple_weights_0_penalty)
+# print(simple_weights_0_penalty)
 
 simple_weights_high_penalty = ridge_regression_gradient_descent(simple_feature_matrix, output, [0.0,0.0], 1e-12, 1e11, max_iterations=1000)
-print(simple_weights_high_penalty)
+# print(simple_weights_high_penalty)
 
 
 plt.plot(simple_feature_matrix,output,'k.',
@@ -84,4 +84,44 @@ plt.plot(simple_feature_matrix,output,'k.',
         simple_feature_matrix,predict_output(simple_feature_matrix, simple_weights_high_penalty),'r-')
 plt.show()
 
+# Question 1
+print("Question 1: ", simple_weights_0_penalty[1])
 
+# Question 2
+print("Question 2 : ", simple_weights_high_penalty[1])
+
+# Question 4
+def RSS_calculation(feature_matrix, weights, output):
+    prediction = predict_output(feature_matrix, weights)
+    residual = output - prediction
+    RSS = (residual ** 2).sum()
+    return RSS
+
+print("Question 4 : ", "RSS 0 weights", RSS_calculation(simple_test_feature_matrix, [0.0,0.0], test_output))
+print("Question 4", "RSS no regulation", RSS_calculation(simple_test_feature_matrix, simple_weights_0_penalty, test_output))
+print("Question 4", "RSS high regulation", RSS_calculation(simple_test_feature_matrix, simple_weights_high_penalty, test_output))
+
+# Question 5
+model_2_features = ['sqft_living', 'sqft_living15']
+model_2_output = 'price'
+(model_2_feature_matrix, model_2_output) = get_numpy_data(train_data, model_2_features, model_2_output)
+
+model_2_weights_0_penalty = ridge_regression_gradient_descent(model_2_feature_matrix, model_2_output, [0.0,0.0,0.0], 1e-12, 0.0, max_iterations=1000)
+print("Question 5: ", model_2_weights_0_penalty[1])
+
+# Question 6
+model_2_weights_high_penalty = ridge_regression_gradient_descent(model_2_feature_matrix, model_2_output, [0.0,0.0,0.0], 1e-12, 1e11, max_iterations=1000)
+print("Question 6: {}".format(model_2_weights_high_penalty[1]))
+
+# Question 7
+(test_model_2_feature_matrix, test_output) = get_numpy_data(test_data, model_2_features, my_output)
+print("RSS no regulation", RSS_calculation(test_model_2_feature_matrix, model_2_weights_0_penalty, test_output))
+print("RSS high regulation", RSS_calculation(test_model_2_feature_matrix, model_2_weights_high_penalty, test_output))
+
+# Question 8
+first_house = test_data[model_2_features].iloc[0].tolist()
+
+predict_price_no_reg = model_2_weights_0_penalty[0] + model_2_weights_0_penalty[1] * first_house[0] + model_2_weights_0_penalty[2] * first_house[1]
+print("the price of the first house in the test set using the weights learned with no regularization: ", predict_price_no_reg)
+predict_price_hi_reg = model_2_weights_high_penalty[0] + model_2_weights_high_penalty[1] * first_house[0] + model_2_weights_high_penalty[2] * first_house[1]
+print("the price of the first house in the test set using the weights learned with high regularization: ", predict_price_hi_reg)
