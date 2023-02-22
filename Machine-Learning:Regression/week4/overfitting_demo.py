@@ -175,3 +175,19 @@ def loo(data, deg, l2_penalty_values):
 
     return l2_penalty_mse, best_l2_penalty
 
+# Run LOO cross validation for "num" values of lambda, on a log scale
+
+l2_penalty_valeus = numpy.logspace(-4, 10, num=10)
+l2_penalty_mse, best_l2_penalty = loo(data, 16, l2_penalty_valeus)
+
+# Plot results of estimating LOO for each value of lambda
+plt.plot(l2_penalty_valeus, l2_penalty_mse, 'k-')
+plt.xlabel('$\l2_penalty$')
+plt.ylabel('LOO cross validation error')
+plt.xscale('log')
+plt.yscale('log')
+
+print(best_l2_penalty)
+model = polynomial_ridge_regression(data, deg=16, l2_penalty=best_l2_penalty)
+print_coefficients(model)
+plot_poly_predictions(data, model)
