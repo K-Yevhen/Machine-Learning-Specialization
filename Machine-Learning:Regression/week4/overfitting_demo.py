@@ -123,6 +123,55 @@ def polynomial_ridge_regression(data, deg, l2_penalty):
 # plot_poly_predictions(data, model)
 
 # Perform a ridge fit of a degree-16 polynomial using a very large penalty strength
-model = polynomial_ridge_regression(data, deg=16, l2_penalty=100)
-print_coefficients(model)
-plot_poly_predictions(data, model)
+# model = polynomial_ridge_regression(data, deg=16, l2_penalty=100)
+# print_coefficients(model)
+# plot_poly_predictions(data, model)
+
+# Let's look at fits for a sequence of increasing lambda values
+# for l2_penalty in [1e-25, 1e-10, 1e-6, 1e-3, 1e2]:
+#     model = polynomial_ridge_regression(data, deg=12, l2_penalty=l2_penalty)
+#     print 'lambda = %.2e' % l2_penalty
+#     print_coefficients(model)
+#     print '\n'
+#     plt.figure()
+#     plot_poly_predictions(data, model)
+#     plt.title('Ridge, lambda = %.2e' % l2_penalty)
+
+# Perform a ridge fit of a degree-16 polynomial using a "good" penalty strength
+# LOO cross validation -- return the average MSE
+from sklearn import model_selection as ms
+
+def loo(data, deg, l2_penalty_values):
+    # Create polynomial features
+    polynomial_features(data, deg)
+
+    # Create as many folds for cross validation as number of data point
+    num_folds = len(data)
+    folds = ms.KFold(data, num_folds)
+
+    # for each value of l2_penalty, fit a model for each fold and compute average MSe
+    l2_penalty_mse = []
+    min_mse = None
+    best_l2_penalty = None
+    for l2_penalty in l2_penalty_values:
+        next_mse = 0.0
+        for train_set, validation_set in folds:
+            # train model
+            model = tc.linear_regression.create(train_set, target='Y',
+                                                l2_penalty=l2_penalty,
+                                                validation_set=None, verbose=False)
+
+            # predict on validation set
+            y_test_predicted = model.predict(validation_set)
+            # compute squared error
+            next_mse += ((y_test_predicted - validation_set['Y'])**2).sum()
+
+        # save squared error in list of MSE for each l2_penalty
+        next_mse = next_mse / num_folds
+        l2_penalty_mse.append(next_mse)
+        if min_mse in None or next_mse < min_mse:
+            min_mse = next_mse
+            best_l2_penalty = l2_penalty
+
+    return l2_penalty_mse, best_l2_penalty
+
