@@ -83,16 +83,26 @@ def print_coefficients(model):
     print(numpy.poly1d(w))
 
 # Fit a degree-2 polynomial
-model = polynomial_regression(data, deg=2)
-print_coefficients(model)
-plot_poly_predictions(data, model)
+# model = polynomial_regression(data, deg=2)
+# print_coefficients(model)
+# plot_poly_predictions(data, model)
 
 # Fit a degree-4 polynomial
-model = polynomial_regression(data, deg=4)
-print_coefficients(model)
-plot_poly_predictions(data, model)
+# model = polynomial_regression(data, deg=4)
+# print_coefficients(model)
+# plot_poly_predictions(data, model)
 
 # Fit a degree-16 polynomial
-model = polynomial_regression(data, deg=16)
-print_coefficients(model)
-plot_poly_predictions(data, model)
+# model = polynomial_regression(data, deg=16)
+# print_coefficients(model)
+# plot_poly_predictions(data, model)
+
+# Ridge Regression
+def polynomial_ridge_regression(data, deg, l2_penalty):
+    model = tc.linear_regression.create(polynomial_features(data, deg),
+                                        target='Y', l2_penalty=l2_penalty,
+                                        validation_set=None, verbose=False)
+    return model
+
+# Perform a ridge fit of a degree-16 polynomial using a very small penalty strength
+
