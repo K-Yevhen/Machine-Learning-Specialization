@@ -26,14 +26,18 @@ data = tc.SFrame({'X1': x, 'Y': y})
 # print(data)
 
 # Create a function to plot the data, since we will do in many times
+
+
 def plot_data(data):
     plt.plot(data['X1'], data['Y'], 'k.')
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.show()
+    # plt.show()
 # plot_data(data)
 
 # Define some useful polynomial regression functions
+
+
 def polynomial_features(data, deg):
     data_copy = data.copy()
     for i in range(1, deg):
@@ -41,6 +45,8 @@ def polynomial_features(data, deg):
     return data_copy
 
 # Define a function to fit a polynomial linear regression model of degree "deg" to the data in "data"
+
+
 def polynomial_regression(data, deg):
     model = tc.linear_regression.create(
         polynomial_features(data, deg),
@@ -52,11 +58,13 @@ def polynomial_regression(data, deg):
     return model
 
 # Define function to plat data and predictions made, since we are going to use it many times
+
+
 def plot_poly_predictions(data, model):
     plot_data(data)
 
     # Get the degree of the polynomial
-    deg = len(model.coefficients['value']) - 1
+    deg = len(model.coefficients['value'])-1
 
     # Create 200 points in the x axis and compute the predicted value for each point
     x_pred = tc.SFrame({'X1': [i / 200.0 for i in range(200)]})
@@ -69,6 +77,8 @@ def plot_poly_predictions(data, model):
     plt.show()
 
 # Create a function that prints the polynomial coefficients in a pretty way
+
+
 def print_coefficients(model):
     # Get the degree of the polynomial
     deg = len(model.coefficients['value'])-1
@@ -98,6 +108,8 @@ def print_coefficients(model):
 # plot_poly_predictions(data, model)
 
 # Ridge Regression
+
+
 def polynomial_ridge_regression(data, deg, l2_penalty):
     model = tc.linear_regression.create(polynomial_features(data, deg),
                                         target='Y', l2_penalty=l2_penalty,
@@ -106,3 +118,11 @@ def polynomial_ridge_regression(data, deg, l2_penalty):
 
 # Perform a ridge fit of a degree-16 polynomial using a very small penalty strength
 
+# model = polynomial_ridge_regression(data, deg=16, l2_penalty=1e-25)
+# print_coefficients(model)
+# plot_poly_predictions(data, model)
+
+# Perform a ridge fit of a degree-16 polynomial using a very large penalty strength
+model = polynomial_ridge_regression(data, deg=16, l2_penalty=100)
+print_coefficients(model)
+plot_poly_predictions(data, model)
