@@ -22,6 +22,32 @@ sales = tc.SFrame('home_data.sframe')
 sales['sqft_living_sqrt'] = sales['sqft_living'].apply(sqrt)
 sales['sqft_lot_sqrt'] = sales['sqft_lot'].apply(sqrt)
 sales['bedrooms_square'] = sales['bedrooms']*sales['bedrooms']
+sales['floors'] = sales['floors'].astype(float)
 sales['floors_square'] = sales['floors']*sales['floors']
 
-print(sales['sqft_living_sqrt'])
+# print(sales['sqft_living_sqrt'])
+
+from sklearn import linear_model  # using scikit-learn
+all_features = ['bedrooms', 'bedrooms_square',
+            'bathrooms',
+            'sqft_living', 'sqft_living_sqrt',
+            'sqft_lot', 'sqft_lot_sqrt',
+            'floors', 'floors_square',
+            'waterfront', 'view', 'condition', 'grade',
+            'sqft_above',
+            'sqft_basement',
+            'yr_built', 'yr_renovated']
+
+model_all = tc.linear_regression.create(sales, target='price', features=all_features, validation_set=None, l2_penalty=0.,
+                                        l1_penalty=1e10)
+
+# print(model_all.coefficients)
+
+zero = model_all.coefficients
+nonzero_coefficients = zero[zero['value'] != 0]
+# print(nonzero_coefficients)
+
+(training_and_validation, testing) = sales.random_split(.9, seed=1)
+(training, validation) = training_and_validation.random_split(0.5, seed=1)
+
+
