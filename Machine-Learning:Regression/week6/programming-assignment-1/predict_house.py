@@ -140,7 +140,7 @@ def predict_output_of_query(k, features_train, output_train, features_query):
 
 
 # Question 6
-print(predict_output_of_query(4, feature_train, output_train, feature_test[2]))
+# print(predict_output_of_query(4, feature_train, output_train, feature_test[2]))
 
 
 def predict_output(k, features_train, output_train, features_query):
@@ -152,4 +152,20 @@ def predict_output(k, features_train, output_train, features_query):
 
 
 # Question 7
+predictions_q7 = predict_output(10, feature_train, output_train, feature_test[:10])
+# print(min(predictions_q7))
 
+
+RSS = []
+for k in range(1,16):
+    predictions_valid = predict_output(k, feature_train, output_train, feature_valid)
+    residual = output_valid - predictions_valid
+    RSS.append(sum(residual ** 2))
+
+# Question 7
+# print(np.argmin(RSS))
+
+# Question 8
+predictions_test = predict_output(8, feature_train, output_train, feature_test)
+residual_test = output_test - predictions_test
+print(sum(residual_test ** 2))
