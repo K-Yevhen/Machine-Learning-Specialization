@@ -51,3 +51,58 @@ validation_pandas = pd.read_csv('/Users/yevhenkuts/PycharmProjects/New/Machine-L
 
 # print(sales_pandas.head())
 
+
+def get_numpy_data(data_frame, features, output):
+    data_frame['constant'] = 1  # add a constant column to an DataFrame
+    # prepend variable 'constant' to the features list
+    features = ['constant'] + features
+
+    features_dataframe = data_frame[features]
+
+    features_matrix = features_dataframe.values
+
+    output_dataframe = data_frame[output]
+    output_array = output_dataframe.values
+
+    return (features_matrix, output_array)
+
+
+def normalize_features(features):
+    norms = np.linalg.norm(features, axis=0)
+    normalized_features = features / norms
+    return(normalized_features, norms)
+
+
+all_features = ['bedrooms',
+                'bathrooms',
+                'sqft_living',
+                'sqft_lot',
+                'floors',
+                'waterfront',
+                'view',
+                'condition',
+                'grade',
+                'sqft_above',
+                'sqft_basement',
+                'yr_built',
+                'yr_renovated',
+                'lat',
+                'long',
+                'sqft_living15',
+                'sqft_lot15']
+
+my_output = 'price'
+
+(feature_train, output_train) = get_numpy_data(training_pandas, all_features, my_output)
+(feature_train, norms) = normalize_features(feature_train)
+
+(feature_test, output_test) = get_numpy_data(testing_pandas, all_features, my_output)
+(feature_valid, output_valid) = get_numpy_data(validation_pandas, all_features, my_output)
+
+feature_test = feature_test / norms
+feature_valid = feature_valid / norms
+
+# print("Features test for 0: {}".format(feature_test[0]))
+# print("Features test for 9: {}".format(feature_test[9]))
+
+print(np.sqrt(((feature_test[0] - feature_train[9]) ** 2).sum()))
