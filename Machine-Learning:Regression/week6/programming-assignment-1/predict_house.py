@@ -130,6 +130,26 @@ def k_nearest_neighbors(k, feature_train, features_query):
     return neighbors
 
 # Question 5
-print(k_nearest_neighbors(4, feature_train, feature_test[2]))
+# print(k_nearest_neighbors(4, feature_train, feature_test[2]))
 
+
+def predict_output_of_query(k, features_train, output_train, features_query):
+    neighbors = k_nearest_neighbors(k, features_train, features_query)
+    prediction = np.mean(output_train[neighbors])
+    return prediction
+
+
+# Question 6
+print(predict_output_of_query(4, feature_train, output_train, feature_test[2]))
+
+
+def predict_output(k, features_train, output_train, features_query):
+    num = features_query.shape[0]
+    predictions = []
+    for i in range(num):
+        predictions.append(predict_output_of_query(k, features_train, output_train, features_query[i]))
+    return predictions
+
+
+# Question 7
 
