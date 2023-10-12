@@ -30,14 +30,24 @@ dtype_dict = {'bathrooms': float,
               'sqft_lot': int,
               'view': int}
 
-sales = tc.SFrame("/Users/yevhenkuts/PycharmProjects/New/Machine-Learning-Specialization/Machine-Learning:Regression/week6/programming-assignment-1/home_data_small.sframe")
+sales = tc.SFrame("/Users/yevhenkuts/PycharmProjects/New/Machine-Learning-Specialization/"
+                  "Machine-Learning:Regression/week6/programming-assignment-1/home_data_small.sframe")
 
 (train_and_validation, test) = sales.random_split(.8, seed=1)
 (train, validation) = train_and_validation.random_split(.8, seed=1)
 
-sales_pandas = pd.read_csv('kc_house_data_small.csv', dtype=dtype_dict)
-training_pandas = pd.read_csv('kc_house_data_small_train.csv', dtype=dtype_dict)
-testing_pandas = pd.read_csv('kc_house_data_small_test.csv', dtype=dtype_dict)
-validation_pandas = pd.read_csv('kc_house_data_validation.csv', dtype=dtype_dict)
+sales_pandas = pd.read_csv('/Users/yevhenkuts/PycharmProjects/New/Machine-Learning-Specialization/'
+                           'Machine-Learning:Regression/week6/programming-assignment-1/'
+                           'kc_house_data_small.csv', dtype=dtype_dict)
+training_pandas = pd.read_csv('/Users/yevhenkuts/PycharmProjects/New/Machine-Learning-Specialization/'
+                              'Machine-Learning:Regression/week6/programming-assignment-1/'
+                              'kc_house_data_small_train.csv', dtype=dtype_dict)
+testing_pandas = pd.read_csv('/Users/yevhenkuts/PycharmProjects/New/Machine-Learning-Specialization/'
+                             'Machine-Learning:Regression/week6/programming-assignment-1/'
+                             'kc_house_data_small_test.csv', dtype=dtype_dict)
+validation_pandas = pd.read_csv('/Users/yevhenkuts/PycharmProjects/New/Machine-Learning-Specialization/'
+                                'Machine-Learning:Regression/week6/programming-assignment-1/'
+                                'kc_house_data_validation.csv', dtype=dtype_dict)
 
-print(sales_pandas.head())
+# print(sales_pandas.head())
+
