@@ -121,4 +121,15 @@ distances_3house = compute_distances(feature_train, feature_test[2])
 # print(np.argmin(distances_3house))
 
 # Question 4
-print(training_pandas['price'][382])
+# print(training_pandas['price'][382])
+
+
+def k_nearest_neighbors(k, feature_train, features_query):
+    distances = compute_distances(feature_train, features_query)
+    neighbors = np.argsort(distances, axis = 0)[:k]
+    return neighbors
+
+# Question 5
+print(k_nearest_neighbors(4, feature_train, feature_test[2]))
+
+
