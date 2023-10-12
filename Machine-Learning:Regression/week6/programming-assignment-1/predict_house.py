@@ -105,4 +105,20 @@ feature_valid = feature_valid / norms
 # print("Features test for 0: {}".format(feature_test[0]))
 # print("Features test for 9: {}".format(feature_test[9]))
 
-print(np.sqrt(((feature_test[0] - feature_train[9]) ** 2).sum()))
+# Question 1
+# print(np.sqrt(((feature_test[0] - feature_train[9]) ** 2).sum()))
+
+
+def compute_distances(features_instances, features_query):
+    diff = features_instances - features_query
+    distances = np.sqrt(np.sum(diff**2, axis=1))
+    return distances
+
+
+distances_3house = compute_distances(feature_train, feature_test[2])
+
+# Question 3
+# print(np.argmin(distances_3house))
+
+# Question 4
+print(training_pandas['price'][382])
